@@ -9,7 +9,7 @@ SLOT=trixie/$PVR
 # NOTE: When updating: use the version from Debian testing (trixie)
 # https://packages.debian.org/trixie/linux-source
 DEB_PATCHLEVEL="1"
-KERNEL_TRIPLET="6.9.12"
+KERNEL_TRIPLET="6.10.4"
 
 
 VERSION_SUFFIX="_p${DEB_PATCHLEVEL}"
