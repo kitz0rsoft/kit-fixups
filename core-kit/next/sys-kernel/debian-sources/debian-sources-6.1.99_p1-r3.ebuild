@@ -6,7 +6,7 @@ inherit check-reqs eutils ego savedconfig
 
 SLOT=bookworm/$PVR
 
-# NOTE: When updating: use the version from Debiam stable (bookworm):
+# NOTE: When updating: use the version from Debian stable (bookworm):
 # https://packages.debian.org/bookworm/linux-source
 DEB_PATCHLEVEL="1"
 KERNEL_TRIPLET="6.1.99"
@@ -262,13 +262,6 @@ src_prepare() {
 	yes "" | make oldconfig >/dev/null 2>&1 || die
 	cp .config "${T}"/config || die
 	make -s mrproper || die "make mrproper failed"
-
-	mkdir "${WORKDIR}/genkernel-cache" || die
-	# copy Genkernel cache from host into WORKDIR if it exists
-	if use genkernel && [[ -d /var/cache/genkernel/4.3.10 ]]; then
-		einfo "Using pre-existing genkernel cache at /var/cache/genkernel/4.3.10."
-		cp -r /var/cache/genkernel/4.3.10 "${WORKDIR}/genkernel-cache/" || die
-	fi
 }
 
 src_compile() {
@@ -329,6 +322,8 @@ src_install() {
 				die "ramdisk failed: $?" \
 	)
 	! use ramdisk && use genkernel && ( \
+		addread /var/cache/genkernel;
+		addwrite /var/cache/genkernel;
 		/usr/bin/genkernel initramfs \
 			--no-mrproper \
 			--no-clean \
@@ -341,7 +336,6 @@ src_install() {
 			--logfile=$WORKDIR/genkernel.log \
 			--kerneldir=${D}/usr/src/${LINUX_SRCDIR}/ \
 			--bootdir=${D}/boot \
-			--cachedir=${WORKDIR}/genkernel-cache \
 			--no-clear-cachedir \
 			--kernel-modules-prefix=${D} \
 			--ramdisk-modules \
@@ -367,17 +361,6 @@ pkg_postinst() {
 
 	if [ -e ${ROOT}lib/modules ]; then
 		depmod -a $MOD_DIR_NAME
-	fi
-
-	# copy the fresh Genkernel cache into the image, but
-	# only if the host doesn't have a cache already existing.
-	# addread /var/cache/genkernel/4.3.10
-	if use genkernel && [[ -d "${ROOT}"cache/genkernel/4.3.10 ]]; then
-		einfo "Leaving pre-existing genkernel cache at ${ROOT}var/cache/genkernel/4.3.10 alone."
-	else
-		einfo "Copying genkernel cache into ${ROOT}var/cache/genkernel/."
-		[[ ! -d "${ROOT}"var/cache/genkernel ]] && ( mkdir -p "${ROOT}"var/cache/genkernel || die )
-		rsync -a "${WORKDIR}"/genkernel-cache/ "${ROOT}"var/cache/genkernel/ || die
 	fi
 
 	ego_pkg_postinst
