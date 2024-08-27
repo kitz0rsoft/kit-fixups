@@ -361,8 +361,11 @@ pkg_postinst() {
 				mv /boot/$i-${KERN_SUFFIX}{.tmp,}
 			fi
 		done
-		[[ -d "/lib/modules/${moddir}.old" ]] && mv /lib/modules/${moddir}{,.old}
-		mv /lib/modules/${moddir}{.tmp,}
+		if [[ -d "/lib/modules/${moddir}" ]]; then
+			[[ -d "/lib/modules/${moddir}.old" ]] && rm -r /lib/modules/${moddir}.old
+			mv /lib/modules/${moddir}{,.old}
+			mv /lib/modules/${moddir}{.tmp,}
+		fi
 	fi
 
 	if use binary && [[ -h "${ROOT}"usr/src/linux ]]; then
