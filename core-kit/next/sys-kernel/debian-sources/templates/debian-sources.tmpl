@@ -356,8 +356,12 @@ pkg_postinst() {
 	if use binary; then
 		# Prevent kernel, initramfs, and modules erasure during upgrade.
 		for i in {kernel,initramfs,System.map,config}; do
-			[[ -f "/boot/$i-${KERN_SUFFIX}.tmp" ]] && mv /boot/$i-${KERN_SUFFIX}{.tmp,}
+			if [[ -f "/boot/$i-${KERN_SUFFIX}.tmp" ]]; then
+				[[ -f "/boot/$-${KERN_SUFFIX}.old" ]] && mv /boot/$i-${KERN_SUFFIX}{,.old}
+				mv /boot/$i-${KERN_SUFFIX}{.tmp,}
+			fi
 		done
+		[[ -d "/lib/modules/${moddir}.old" ]] && mv /lib/modules/${moddir}{,.old}
 		mv /lib/modules/${moddir}{.tmp,}
 	fi
 
