@@ -170,6 +170,11 @@ async def generate(hub, **pkginfo):
         for k,u in pkginfo['additional_artifacts'].items()
     ]
 
+    # FIXME HACK: shouldn't refer explicitly to release level strings
+    # remove sid if sid kernel version == trixie kernel version
+    if s['unstable'] == s['testing']:
+        del s['unstable']
+
     for k,v in s.items():
         # returns the current version if it passes checks, or an alternative
         ver, triplet, debpatch = check_version(
@@ -206,11 +211,21 @@ async def generate(hub, **pkginfo):
                 'branch' : {
                     'level' : k,
                     'name' : pkginfo['branches'][k]['name'],
-                }
+                },
+        #        'slot' : f"{ver}/{pkginfo['branches'][k]['name']}",
+                'slot' : f"{pkginfo['branches'][k]['name']}/{ver}",
             }
         )
-
         create_ebuild(pkginfo=pkginfo, version=ver, artifacts=artifacts)
+
+        #pkginfo.update(
+        #    {
+        #        'slot' : f"{pkginfo['branches'][k]['name']}/{ver}",
+        #        'name' : f"debian-sources-{pkginfo['branches'][k]['name']}",
+        #        'template' : 'debian-sources.tmpl',
+        #    }
+        #)
+        #create_ebuild(pkginfo=pkginfo, version=ver, artifacts=artifacts)
 
 
 # vim: ts=4 sw=4
