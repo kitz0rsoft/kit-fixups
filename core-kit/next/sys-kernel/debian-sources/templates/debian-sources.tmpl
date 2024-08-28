@@ -359,20 +359,20 @@ pkg_postinst() {
 			if [[ -f "/boot/$i-${KERN_SUFFIX}" ]]; then
 				[[ -f "/boot/$-${KERN_SUFFIX}.old" ]] && \
 					rm /boot/$i-${KERN_SUFFIX}.old
-				mv /boot/$i-${KERN_SUFFIX}{,.old}
+				mv /boot/$i-${KERN_SUFFIX}{,.old} || die
 			fi
-			mv /boot/$i-${KERN_SUFFIX}{.tmp,}
+			mv /boot/$i-${KERN_SUFFIX}{.tmp,} || die
 		done
 		if [[ -d "/lib/modules/${moddir%%/}" ]]; then
 			[[ -d "/lib/modules/${moddir%%/}.old" ]] && \
 				rm -r /lib/modules/${moddir%%/}.old
-			mv /lib/modules/${moddir%%/}{,.old}
+			mv /lib/modules/${moddir%%/}{,.old} || die
 		fi
-		mv /lib/modules/${moddir%%/}{.tmp,}
+		mv /lib/modules/${moddir%%/}{.tmp,} || die
 	fi
 
 	if use binary && [[ -h "${ROOT}"usr/src/linux ]]; then
-		rm "${ROOT}"usr/src/linux
+		rm "${ROOT}"usr/src/linux || die
 	fi
 
 	if use binary && [[ ! -e "${ROOT}"usr/src/linux ]]; then
@@ -382,11 +382,11 @@ pkg_postinst() {
 		ewarn ""
 		ewarn "  emerge @module-rebuild"
 		ewarn ""
-		ln -sf ${LINUX_SRCDIR} "${ROOT}"usr/src/linux
+		ln -sf ${LINUX_SRCDIR} "${ROOT}"usr/src/linux || die
 	fi
 
 	if [ -e ${ROOT}lib/modules ]; then
-		depmod -a $MOD_DIR_NAME
+		depmod -a $MOD_DIR_NAME || die
 	fi
 
 	ego_pkg_postinst
