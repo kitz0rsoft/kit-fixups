@@ -349,26 +349,40 @@ src_install() {
 	# The following line associates the .tmp dir with this package, so that
 	# when the package is uninstalled, the modules are not removed.
 	# Otherwise, modules for the current running kernel might be erased!
-	mv "${D}"/lib/modules/${moddir}{,.tmp}
+	mv "${D}"/lib/modules/${MOD_DIR_NAME}{,.tmp}
 }
 
 pkg_postinst() {
+	# Prevent kernel, initramfs, and modules erasure during upgrade.
 	if use binary; then
-		# Prevent kernel, initramfs, and modules erasure during upgrade.
 		for i in {kernel,initramfs,System.map,config}; do
 			if [[ -f "/boot/$i-${KERN_SUFFIX}" ]]; then
-				[[ -f "/boot/$-${KERN_SUFFIX}.old" ]] && \
-					rm /boot/$i-${KERN_SUFFIX}.old
-				mv /boot/$i-${KERN_SUFFIX}{,.old} || die
+				# USE=savedconfig means the config might have changed!
+				# In that case, keep the old kernel around, for safety.
+				if use savedconfig; then
+					[[ -f "/boot/$-${KERN_SUFFIX}.old" ]] && \
+						rm /boot/$i-${KERN_SUFFIX}.old
+					einfo "Preserving: mv /boot/$i-${KERN_SUFFIX}{,.old}"
+					mv /boot/$i-${KERN_SUFFIX}{,.old} || die
+				else
+					rm /boot/$i-${KERN_SUFFIX} || die
+				fi
 			fi
 			mv /boot/$i-${KERN_SUFFIX}{.tmp,} || die
 		done
-		if [[ -d "/lib/modules/${moddir%%/}" ]]; then
-			[[ -d "/lib/modules/${moddir%%/}.old" ]] && \
-				rm -r /lib/modules/${moddir%%/}.old
-			mv /lib/modules/${moddir%%/}{,.old} || die
+		if [[ -d "/lib/modules/${MOD_DIR_NAME}" ]]; then
+			# USE=savedconfig means the config might have changed!
+			# In that case, keep the old modules around, for safety.
+			if use savedconfig; then
+				[[ -d "/lib/modules/${MOD_DIR_NAME}.old" ]] && \
+					rm -r /lib/modules/${MOD_DIR_NAME}.old
+				einfo "Preserving: mv /lib/modules/${MOD_DIR_NAME}{,.old}"
+				mv /lib/modules/${MOD_DIR_NAME}{,.old} || die
+			else
+				rm -r /lib/modules/${MOD_DIR_NAME} || die
+			fi
 		fi
-		mv /lib/modules/${moddir%%/}{.tmp,} || die
+		mv /lib/modules/${MOD_DIR_NAME}{.tmp,} || die
 	fi
 
 	if use binary && [[ -h "${ROOT}"usr/src/linux ]]; then
