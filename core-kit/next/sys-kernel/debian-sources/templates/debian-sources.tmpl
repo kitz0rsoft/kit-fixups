@@ -358,8 +358,8 @@ pkg_postinst() {
 		for i in {kernel,initramfs,System.map,config}; do
 			if [[ -f "/boot/$i-${KERN_SUFFIX}.tmp" ]]; then
 				[[ -f "/boot/$-${KERN_SUFFIX}.old" ]] && mv /boot/$i-${KERN_SUFFIX}{,.old}
-				mv /boot/$i-${KERN_SUFFIX}{.tmp,}
 			fi
+			mv /boot/$i-${KERN_SUFFIX}{.tmp,}
 		done
 		if [[ -d "/lib/modules/${moddir}" ]]; then
 			[[ -d "/lib/modules/${moddir}.old" ]] && rm -r /lib/modules/${moddir}.old
