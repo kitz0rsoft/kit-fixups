@@ -364,8 +364,8 @@ pkg_postinst() {
 		if [[ -d "/lib/modules/${moddir}" ]]; then
 			[[ -d "/lib/modules/${moddir}.old" ]] && rm -r /lib/modules/${moddir}.old
 			mv /lib/modules/${moddir}{,.old}
-			mv /lib/modules/${moddir}{.tmp,}
 		fi
+		mv /lib/modules/${moddir}{.tmp,}
 	fi
 
 	if use binary && [[ -h "${ROOT}"usr/src/linux ]]; then
