@@ -2294,8 +2294,7 @@ pep517_compliance_rule:
     - pyproject-metadata:
         pydeps:
           - packaging
-    - cerberus:
-        pypi_name: Cerberus
+    - cerberus
     - tomli-w:
         du_pep517: flit
     - boolean-py:
