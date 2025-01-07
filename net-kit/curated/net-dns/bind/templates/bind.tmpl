@@ -112,7 +112,7 @@ src_configure() {
 src_install() {
 	default
 
-	dodoc CHANGES README.md
+	dodoc README.md
 
 	if use doc; then
 		docinto misc
