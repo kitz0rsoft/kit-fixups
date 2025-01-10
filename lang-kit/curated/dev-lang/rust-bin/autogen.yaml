@@ -21,12 +21,9 @@ rust-gen_rule:
 
   packages:
     - rust-bin:
-        revision:
-          1.70.0: 1
-          1.69.0: 1
         version:
           latest: {}
-          1.69.0: {}
+          1.84.0: {}
         extra_components:
           rust-src:
             name: rust-src
@@ -38,6 +35,11 @@ rust-gen_rule:
           # Starting Rust 1.81 (September 5th, 2024) we will begin warning existing users of wasm32-wasi to migrate to wasm32-wasip1
           # And finally in Rust 1.84 (January 9th, 2025) the wasm32-wasi target will no longer be shipped on the stable release channel
           # After the Rust 1.78.0 release, we can replace wasm32-wasi with wasm32-wasip1
+
+          # https://doc.rust-lang.org/stable/releases.html#version-1840-2025-01-09
+          # Support for the target named wasm32-wasi has been removed as the target is now named wasm32-wasip1.
+          # This completes the transition plan for this target following the introduction of wasm32-wasip1 in Rust 1.78.
+          # Compiler warnings on use of wasm32-wasi introduced in Rust 1.81 are now gone as well as the target is removed.
           wasm-wasi:
             name: rust-std
-            chost: wasm32-wasi
+            chost: wasm32-wasip1
