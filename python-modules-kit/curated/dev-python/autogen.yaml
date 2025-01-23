@@ -2458,7 +2458,6 @@ dev_python_autogen_rule:
     - wcwidth
     - wstools:
         python_compat: python3+
-    - yarl
     - zope-component
     - zope-configuration
     - zope-deferredimport
@@ -2544,12 +2543,19 @@ ansible_deps_rule:
     - httplib2:
         pydeps:
           - pyparsing
+    - yarl:
+        pydeps:
+          py:all:
+            - idna >= 2.0
+            - propcache >= 0.2.0
+            - multidict >= 4.0
     - netaddr
     - pynacl:
         body: |
           S="${WORKDIR}/PyNaCl-${PV}"
         rdepend: |
           dev-libs/libsodium
+    - propcache
 
 yq_deps_rule:
   generator: pypi-compat-1

@@ -38,7 +38,7 @@ sdl2libs_rule:
           query: tags
           # An odd number in the minor version indicates a pre-release.
           # The latest one with an even number is the stable release.
-          select: release-\d+\.\d*[02468]\.\d+
+          select: release-2.\d*[02468]\.\d+
         tarball: release-{version}.tar.gz
     - sdl2-image:
         desc: Image decoding for many popular formats for SDL.
