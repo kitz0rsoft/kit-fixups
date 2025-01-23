@@ -77,7 +77,7 @@ NV_OPENCL_VEND_DIR="OpenCL/nvidia"
 NV_X_MODDIR="xorg/modules"
 
 # Maximum supported kernel version in form major.minor
-: "${NV_MAX_KERNEL_VERSION:=6.3}"
+: "${NV_MAX_KERNEL_VERSION:=6.12}"
 
 # Fixups for issues with particular versions of the package.
 nv_do_fixups() {
