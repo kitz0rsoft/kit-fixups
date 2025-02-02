@@ -5,7 +5,7 @@ from metatools.version import generic
 
 async def generate(hub, **pkginfo):
 
-	base_url = "https://dl.hexchat.net/hexchat/"
+	base_url = "https://dl.hexchat.net/hexchat"
 
 	versions = await hub.pkgtools.pages.iter_links (
 		base_url = base_url,
