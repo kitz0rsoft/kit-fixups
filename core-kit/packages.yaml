@@ -87,7 +87,6 @@ packages:
   - app-eselect/eselect-blas
   - app-eselect/eselect-cblas
   - sys-devel/libtool
-  - sys-devel/gnuconfig
   - sys-devel/bison
   - sys-devel/m4
   - sys-devel/autogen
@@ -337,7 +336,6 @@ packages:
   - sys-block/parted
   - net-mail/mailbase
   - app-misc/editor-wrapper
-  - app-misc/mime-types
   - app-misc/realpath
   - sys-libs/pinktrace
   - sys-libs/lib-compat-loki
