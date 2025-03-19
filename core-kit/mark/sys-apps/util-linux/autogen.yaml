@@ -6,6 +6,7 @@ util-linux:
         desc: Various useful Linux utilities
         homepage: https://www.kernel.org/pub/linux/utils/util-linux/
         license: GPL-2 GPL-3 LGPL-2.1 BSD-4 MIT public-domain
+        version: '2.40.4'
         github:
           query: tags
           transform:
