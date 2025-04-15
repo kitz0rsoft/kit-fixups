@@ -42,6 +42,7 @@ target:
 
     - pkg: app-backup/backrest
     - pkg: app-backup/restic
+    - pkg: app-backup/rsnapshot
 
     - pkg: app-emulation/containerd
     - pkg: app-emulation/docker
@@ -61,8 +62,27 @@ target:
     - pkg: app-misc/rdfind
     - pkg: app-misc/screen
 
+    - pkg: sys-apps/cpuid
+    - pkg: sys-apps/dbus
+    - pkg: sys-apps/dtc
+    - pkg: sys-apps/hdparm
+    - pkg: sys-apps/hwids
+    - pkg: sys-apps/kbd
+    - pkg: sys-apps/lsb-release
+    - pkg: sys-apps/openrc
+    - pkg: sys-apps/pciutils
+    - pkg: sys-apps/sdparm
+    - pkg: sys-apps/systemd-tmpfiles
+    - pkg: sys-apps/texinfo
+    - pkg: sys-apps/usbutils
+    - pkg: sys-apps/usbredir
+
     - pkg: sys-block/parted
 
+    - pkg: sys-power/cpupower
+    - pkg: sys-power/powertop
+
+    - pkg: sys-process/at
     - pkg: sys-process/cronbase
     - pkg: sys-process/cronie
     - pkg: sys-process/criu
@@ -70,28 +90,14 @@ target:
     - pkg: sys-process/lsof
     - pkg: sys-process/htop
     - pkg: sys-process/iotop
+    - pkg: sys-process/numactl
+    - pkg: sys-process/parallel
     - pkg: sys-process/procps
     - pkg: sys-process/psmisc
-    - pkg: sys-process/numactl
+    - pkg: sys-process/schedtool
     - pkg: sys-process/tini
 
-    - pkg: sys-apps/kbd
-
-    - pkg: sys-apps/cpuid
-    - pkg: sys-apps/dtc
-    - pkg: sys-apps/hwids
-    - pkg: sys-apps/lsb-release
-    - pkg: sys-apps/openrc
-    - pkg: sys-apps/pciutils
-    - pkg: sys-apps/texinfo
-    - pkg: sys-apps/usbutils
-    - pkg: sys-apps/usbredir
-    - pkg: sys-apps/dbus
-    - pkg: sys-apps/systemd-tmpfiles
-
     - pkg: sys-devel/bc
-
-    - pkg: sys-power/cpupower
 
     - pkg: virtual/cron
     - pkg: virtual/logger
