@@ -2,6 +2,7 @@ curl:
   generator: github-1
   packages:
     - curl:
+        version: '8.12.0'
         github:
           query: releases
           tarball: curl-{version}.tar.gz
