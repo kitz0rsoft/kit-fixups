@@ -1,0 +1,9 @@
+libgamin_rule:
+  generator: simple
+  packages:
+    - libgamin:
+        cat: dev-libs
+        homepage: https://www.gnome.org/~veillard/gamin/
+        desc: Library providing the FAM File Alteration Monitor API
+        src_uri: https://download.gnome.org/sources/gamin/0.1/gamin-0.1.10.tar.bz2
+        version: '0.1.10'
