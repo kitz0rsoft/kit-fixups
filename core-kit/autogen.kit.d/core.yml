@@ -544,9 +544,18 @@ sys_apps_github:
     - shadow:
         github:
           user: shadow-maint
-          query: releases
+          # The release 4.17.4 is without name
+          # and not catched correctly.
+          query: tags
         vars:
           license: BSD GPL-2
+        selector:
+          - '>=4.17.0'
+        exclude:
+          - '-rc'
+          # Ignore weird tags.
+          - '^20'
+          - '^19'
         assets:
           - name: "{{ .Values.pn }}-{{ .Values.version }}.tar.gz"
             matcher: "shadow-.*.tar.gz"

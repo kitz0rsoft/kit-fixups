@@ -12,6 +12,10 @@ sources:
   url: "https://github.com/macaroni-os/net-kit"
   branch: "mark-testing"
 
+- name: "desktop-kit"
+  url: "https://github.com/macaroni-os/desktop-kit"
+  branch: "mark-testing"
+
 target:
   name: net-kit
   url: "https://github.com/macaroni-os/net-kit"
@@ -31,15 +35,21 @@ target:
   atoms:
 
     - pkg: mail-client/alpine
+    - pkg: mail-client/thunderbird-bin
 
-    - pkg: mail-mta/dovecot
+    - pkg: mail-filter/bogofilter
+    - pkg: mail-filter/spamassassin
+
     - pkg: mail-mta/postfix
     - pkg: mail-mta/ssmtp
     - pkg: mail-mta/nullmailer
     - pkg: mail-mta/sendmail
 
+    - pkg: net-mail/dovecot
     - pkg: net-mail/mailbase
     - pkg: net-mail/fetchmail
+    - pkg: net-mail/mailutils
+    - pkg: net-mail/ytnef
 
     - pkg: net-analyzer/arpwatch
     - pkg: net-analyzer/hping
@@ -56,6 +66,9 @@ target:
     - pkg: net-analyzer/tcptrace
     - pkg: net-analyzer/tcpreplay
     - pkg: net-analyzer/traceroute
+    - pkg: net-analyzer/nmap
+    - pkg: net-analyzer/speedtest-cli
+    - pkg: net-analyzer/wireshark
 
     - pkg: net-dialup/lrzsz
     - pkg: net-dialup/ppp
@@ -68,12 +81,14 @@ target:
     - pkg: net-dns/dnssec-root
     - pkg: net-dns/openresolv
     - pkg: net-dns/libidn
-    - pkg: net-dns/unbound
+    - pkg: net-dns/c-ares
+    - pkg: net-nds/rpcbind
 
     - pkg: net-nds/openldap
 
     - pkg: net-firewall/conntrack-tools
     - pkg: net-firewall/ebtables
+    - pkg: net-firewall/firewalld
     - pkg: net-firewall/ipset
     - pkg: net-firewall/iptables
     - pkg: net-firewall/nftables
@@ -82,10 +97,17 @@ target:
     - pkg: net-fs/libnfs
     - pkg: net-fs/minio
     - pkg: net-fs/minio-client
+    - pkg: net-fs/cifs-utils
+    - pkg: net-fs/nfs-utils
+    - pkg: net-fs/samba
+    - pkg: net-fs/sshfs
 
     - pkg: net-ftp/atftp
     - pkg: net-ftp/ftpbase
     - pkg: net-ftp/proftpd
+
+    - pkg: net-libs/phodav
+    - pkg: net-libs/libqrtr-glib
 
     - pkg: net-misc/bridge-utils
     - pkg: net-misc/dhcpcd
@@ -96,6 +118,7 @@ target:
     - pkg: net-misc/iperf:3
     - pkg: net-misc/networkmanager
     - pkg: net-misc/lksctp-tools
+    - pkg: net-misc/radvd
     - pkg: net-misc/rsync
     - pkg: net-misc/vconfig
     - pkg: net-misc/netkit-telnetd
@@ -104,10 +127,14 @@ target:
     - pkg: net-misc/openvswitch
     - pkg: net-misc/ovn
     - pkg: net-misc/rclone
+    - pkg: net-misc/spice-gtk
     - pkg: net-misc/socat
     - pkg: net-misc/stunnel
+    - pkg: net-misc/sshpass
     - pkg: net-misc/whois
 
+    - pkg: net-wireless/crda
+    - pkg: net-wireless/wireless-regdb
     - pkg: net-wireless/wireless-tools
     - pkg: net-wireless/wepattack
     - pkg: net-wireless/wavemon
@@ -120,21 +147,27 @@ target:
 
     - pkg: net-proxy/cntlm
     - pkg: net-proxy/haproxy
+    - pkg: net-proxy/dante
 
     - pkg: net-vpn/openconnect
-    - pkg: net-vpn/strongswan
     - pkg: net-vpn/openfortivpn
     - pkg: net-vpn/openvpn
     - pkg: net-vpn/wireguard-tools
     - pkg: net-vpn/tailscale
     - pkg: net-vpn/vpnc
+    - pkg: net-vpn/networkmanager-fortisslvpn
+    - pkg: net-vpn/networkmanager-openconnect
+    - pkg: net-vpn/networkmanager-strongswan
+    - pkg: net-vpn/networkmanager-vpnc
 
+    - pkg: net-libs/czmq
     - pkg: net-libs/libasyncns
     - pkg: net-libs/libesmtp
     - pkg: net-libs/libiscsi
     - pkg: net-libs/libnet
     - pkg: net-libs/libnsl
     - pkg: net-libs/libmnl
+    - pkg: net-libs/libmicrohttpd
     - pkg: net-libs/libndp
     - pkg: net-libs/libnetfilter_conntrack
     - pkg: net-libs/libnetfilter_cthelper
@@ -149,6 +182,7 @@ target:
     - pkg: net-libs/libssh2
     - pkg: net-libs/libtorrent
     - pkg: net-libs/libtirpc
+    - pkg: net-libs/rabbitmq-c
     - pkg: net-libs/rpcsvc-proto
 
     - pkg: www-apps/gitea
@@ -157,5 +191,57 @@ target:
     - pkg: sys-apps/net-tools
     - pkg: sys-apps/ethtool
     - pkg: sys-apps/tcp-wrappers
+    - pkg: sys-apps/flatpak
 
     - pkg: virtual/mta
+    - pkg: virtual/mailx
+    - pkg: virtual/resolvconf
+
+
+    - pkg: net-dialup/wvdial
+    - pkg: net-dialup/xl2tpd
+
+    - pkg: net-libs/accounts-qml
+    - pkg: net-libs/accounts-qt
+    - pkg: net-libs/cppzmq
+    - pkg: net-libs/dleyna-connector-dbus
+    - pkg: net-libs/dleyna-core
+    - pkg: net-libs/gupnp-av
+    - pkg: net-libs/libdmapsharing
+    - pkg: net-libs/libgrss
+    - pkg: net-libs/libgssglue
+    - pkg: net-libs/libhubbub
+    - pkg: net-libs/libmbim
+    - pkg: net-libs/libmediawiki
+    - pkg: net-libs/libntlm
+    - pkg: net-libs/libotr
+    - pkg: net-libs/libproxy
+    - pkg: net-libs/libsignon-glib
+    - pkg: net-libs/libupnp:1.8
+    - pkg: net-libs/libvncserver
+    - pkg: net-libs/libwebsockets
+    - pkg: net-libs/neon
+    - pkg: net-libs/rest
+    - pkg: net-libs/signon-oauth2
+    - pkg: net-libs/signon-ui
+    - pkg: net-libs/signond
+    - pkg: net-libs/srt
+    - pkg: net-libs/telepathy-accounts-signon
+    - pkg: net-libs/telepathy-glib
+    - pkg: net-libs/telepathy-logger-qt
+    - pkg: net-libs/telepathy-qt
+    - pkg: net-libs/wvstreams
+    - pkg: net-libs/zeromq
+
+    - pkg: net-misc/connman
+    - pkg: net-misc/econnman
+    - pkg: net-misc/dleyna-server
+    - pkg: net-misc/freerdp
+    - pkg: net-misc/ipcalc
+    - pkg: net-misc/mobile-broadband-provider-info
+    - pkg: net-misc/modemmanager
+    - pkg: net-misc/netkit-fingerd
+    - pkg: net-misc/usbip
+    - pkg: net-misc/yt-dlp
+
+    - pkg: www-apps/karma-bin
