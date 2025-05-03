@@ -230,6 +230,7 @@ setuptools_standalone_pythons:
             - setuptools
             - tomli
           py:all:build:
+            - importlib_metadata
             - setuptools
           use:test:
             - build
