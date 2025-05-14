@@ -316,36 +316,6 @@ src_install() {
 		exeinto /usr/src/${LINUX_SRCDIR}/scripts
 		doexe ${WORKDIR}/build/scripts/sign-file
 	fi
-	use ramdisk && ! use genkernel && ( \
-		/usr/bin/ramdisk \
-			--fs_root="${D}" \
-			--temp_root="${T}" \
-			--kernel=${MOD_DIR_NAME} \
-			--keep \
-			 ${D}/boot/initramfs-${KERN_SUFFIX}.tmp --debug --backtrace || \
-				die "ramdisk failed: $?" \
-	)
-	! use ramdisk && use genkernel && ( \
-		addread /var/cache/genkernel;
-		addwrite /var/cache/genkernel;
-		/usr/bin/genkernel initramfs \
-			--no-mrproper \
-			--no-clean \
-			--no-sandbox \
-			$(use lvm && echo --lvm) \
-			$(use luks && echo --luks) \
-			$(use mdadm && echo --mdadm) \
-			$(use btrfs && echo --btrfs) \
-			$(use sshd && echo --ssh) \
-			--logfile=$WORKDIR/genkernel.log \
-			--kerneldir=${D}/usr/src/${LINUX_SRCDIR}/ \
-			--bootdir=${D}/boot \
-			--no-clear-cachedir \
-			--kernel-modules-prefix=${D} \
-			--ramdisk-modules \
-			--initramfs-filename=initramfs-${KERN_SUFFIX}.tmp || \
-				die "genkernel failed:  $?" \
-	)
 	# The following line associates the .tmp dir with this package, so that
 	# when the package is uninstalled, the modules are not removed.
 	# Otherwise, modules for the current running kernel might be erased!
@@ -356,9 +326,9 @@ pkg_postinst() {
 	# Ensure that /boot is mounted in this phase
 	ego_pkg_preinst
 
-	# Prevent kernel, initramfs, and modules erasure during upgrade.
+	# Prevent kernel and modules erasure during upgrade.
 	if use binary; then
-		for i in {kernel,initramfs,System.map,config}; do
+		for i in {kernel,System.map,config}; do
 			if [[ -f "/boot/$i-${KERN_SUFFIX}" ]]; then
 				# USE=savedconfig means the config might have changed!
 				# In that case, keep the old kernel around, for safety.
@@ -387,6 +357,14 @@ pkg_postinst() {
 		fi
 		mv /lib/modules/${MOD_DIR_NAME}{.tmp,} || die
 	fi
+
+	OPTIONS="
+			$(use lvm && echo --lvm) \
+			$(use luks && echo --luks) \
+			$(use mdadm && echo --mdadm) \
+			$(use btrfs && echo --btrfs) \
+			$(use sshd && echo --ssh) \
+	" whip h initramfs.generate_with_dracut
 
 	if use binary && [[ -h "${ROOT}"usr/src/linux ]]; then
 		rm "${ROOT}"usr/src/linux || die
