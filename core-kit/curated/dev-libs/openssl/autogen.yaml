@@ -1,8 +1,10 @@
 openssl:
-  generator: openssl
+  generator: simple
   packages:
     - openssl:
         template: openssl_1.1.tmpl
-        versions:
-          1.1.1w:
-            unmasked: True
+        src_uri: https://github.com/kzalewski/openssl-1.1.1/archive/refs/tags/1.1.1zb_p3.tar.gz
+        # openssl-1.1.1zb_p3 is an illegal version name, according to Portage
+        version: 1.1.1z
+        desc: full-strength general purpose cryptography library (including SSL and TLS)
+        homepage: https://www.openssl.org/ https://github.com/kzalewski/openssl-1.1.1

@@ -51,6 +51,8 @@ MULTILIB_WRAPPED_HEADERS=(
 	usr/include/openssl/opensslconf.h
 )
 
+S="${WORKDIR}/openssl-1.1.1-1.1.1zb_p3"
+
 pkg_setup() {
 	[[ ${MERGE_TYPE} == binary ]] && return
 
@@ -289,3 +291,5 @@ pkg_postinst() {
 	openssl rehash "${EROOT}${SSL_CNF_DIR}/certs" >/dev/null
 	eend $?
 }
+
+# vim: syn=ebuild
