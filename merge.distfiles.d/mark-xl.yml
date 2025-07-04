@@ -87,6 +87,10 @@ sources:
     url: "https://github.com/macaroni-os/lisp-scheme-kit"
     branch: "mark-xl"
 
+  - name: "kitz0rsoft-kit"
+    url: "https://github.com/kitz0rsoft/kitz0rsoft-kit"
+    branch: "mark-xl"
+
 fallback_mirrors:
   - alias: macaroni-cdn-hash
     uri:

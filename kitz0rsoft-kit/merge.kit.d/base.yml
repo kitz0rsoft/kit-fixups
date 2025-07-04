@@ -1,0 +1,30 @@
+sources:
+# We need this to inherit the eclass used for kit cache JSON generation
+- name: "core-kit"
+  url: "https://github.com/kitz0rsoft/core-kit"
+  branch: "mark-xl"
+
+- name: "kernel-kit"
+  url: "https://github.com/kitz0rsoft/kernel-kit"
+  branch: "mark-unstable"
+
+target:
+  name: kitz0rsoft-kit
+  url: "https://repo.edoras.riddermark/kitz0rsoft/kitz0rsoft-kit"
+  branch: mark-xl
+
+  fixups:
+    include:
+      - file: ../../LICENSE
+        to: LICENSE
+
+      - file: ../../.github/FUNDING.yml
+        to: .github/FUNDING.yml
+
+  atoms_defaults:
+    max_versions: 3
+
+  # locally-modified in kitz0rsoft/mark-unstable
+  atoms:
+    - pkg: sys-kernel/debian-sources
+    - pkg: virtual/dracut-mark

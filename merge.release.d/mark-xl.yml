@@ -91,6 +91,10 @@ release:
     url: "https://github.com/macaroni-os/lisp-scheme-kit"
     branch: "mark-xl"
 
+  - name: "kitz0rsoft-kit"
+    url: "https://repo.edoras.riddermark/kitz0rsoft/kitz0rsoft-kit"
+    branch: "mark-xl"
+
   main_kit: "core-kit"
 
   target:
