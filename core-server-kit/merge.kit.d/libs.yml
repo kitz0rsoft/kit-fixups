@@ -30,3 +30,7 @@ target:
     - pkg: dev-libs/libmemcached
 
     - pkg: net-libs/http-parser
+
+    - pkg: sys-libs/ldb
+    - pkg: sys-libs/tdb
+    - pkg: sys-libs/tevent
