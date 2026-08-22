@@ -437,6 +437,9 @@ nncl:
       query: releases
       user: NVIDIA
       repo: nccl
+      # Only real NCCL releases ("NCCL vX.Y.Z Release"); the repo also
+      # publishes NCCL4Py/NCCL EP releases that must not become versions.
+      match: 'NCCL v'
 
     transform:
       - kind: string
@@ -449,10 +452,34 @@ nncl:
         match: '-'
         replace: '.'
     vars:
+      # NVIDIA distributes NCCL under the "License For Customer Use of NVIDIA
+      # Software" (NVIDIA-r2), consistent with the rest of the NVIDIA stack
+      # (nvidia-drivers, nvidia-cuda-toolkit). Without an explicit license,
+      # autogen falls back to the GitHub API spdx_id, which is NOASSERTION for
+      # NCCL (dual-licensed Apache-2.0 + BSD, unmappable to one SPDX id) -- an
+      # unregistered license that gets the ebuild license-masked on emerge.
+      # The BDEPEND dev-util/nvidia-cuda-toolkit (NVIDIA-CUDA) is accepted via
+      # /etc/portage/package.license.
+      license: NVIDIA-r2
       inherit:
         - cmake
       bdepend: |
         dev-util/nvidia-cuda-toolkit
+      # CMake unconditionally executes the CUDA compiler-ABI probe binary during
+      # native-architecture detection (cmake_cuda_architectures_native). The
+      # binary links libcudart, whose runtime renames its own threads via
+      # open_wr(/proc/self/task/<tid>/comm); the portage sandbox denies that
+      # write and kills src_configure. The detected value is unused (arches are
+      # pinned via CUDAARCHS) but the run cannot be skipped, so allow the
+      # harmless self-thread write. Note: /proc/self must be the allow prefix
+      # -- the sandbox canonicalizes it to /proc/<pid> before rule matching,
+      # so narrower prefixes (/proc/self, /proc/self/task) do NOT match.
+      body: |
+        src_configure() {
+          SANDBOX_WRITE="${SANDBOX_WRITE:+${SANDBOX_WRITE}:}/proc"
+          export SANDBOX_WRITE
+          cmake_src_configure
+        }
 
   packages:
 
