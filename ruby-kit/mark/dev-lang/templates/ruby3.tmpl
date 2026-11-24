@@ -13,7 +13,7 @@ RUBYVERSION=${SLOT}.0
 
 DESCRIPTION="A dynamic, interpreted, object-oriented programming language"
 HOMEPAGE="https://www.ruby-lang.org/"
-SRC_URI="{{ artifacts[0].src_uri }}"
+SRC_URI="{{ artefacts[0].src_uri[0] }}"
 
 LICENSE="|| ( Ruby-BSD BSD-2 )"
 {%- if unmasked %}
@@ -75,7 +75,13 @@ src_prepare() {
 	touch gems/bundled_gems || die
 	# Don't install CLI tools since they will clash with the gem
 	rm -f bin/{racc,racc2y,y2racc} || die
-	sed -i -e '/executables/ s:^:#:' lib/racc/racc.gemspec || die
+	if [[ -f lib/racc/racc.gemspec ]]; then
+		sed -i -e '/executables/ s:^:#:' lib/racc/racc.gemspec || die
+	fi
+	# Avoid the irb default gemspec; dev-ruby/irb is installed separately.
+	if [[ -f lib/irb/irb.gemspec ]]; then
+		rm -f lib/irb/irb.gemspec || die
+	fi
 
 	einfo "Removing bundled libraries..."
 	rm -fr ext/fiddle/libffi-3.2.1 || die
@@ -219,7 +225,10 @@ src_install() {
 		dodoc -r sample
 	fi
 
-	dodoc ChangeLog {{ news_doc }} README*
+	if [[ -f ChangeLog ]]; then
+		dodoc ChangeLog
+	fi
+	dodoc {{ news_doc }} README*
 
 	if use rubytests; then
 		pushd test
