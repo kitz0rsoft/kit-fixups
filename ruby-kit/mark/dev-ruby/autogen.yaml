@@ -1,7 +1,7 @@
 rubygems_github:
   generator: github-1
   defaults:
-    use_ruby: "ruby27 ruby30 ruby31 ruby32"
+    use_ruby: "ruby27 ruby30 ruby31 ruby32 ruby33"
   packages:
     - debug:
         github:
@@ -136,7 +136,7 @@ rubygems_github:
 rubygems_manual:
   generator: rubygems
   defaults:
-    use_ruby: "ruby27 ruby30 ruby31 ruby32"
+    use_ruby: "ruby27 ruby30 ruby31 ruby32 ruby33"
   packages:
     - bundler:
         versions:
